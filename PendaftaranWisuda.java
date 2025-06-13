@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PendaftaranWisuda {
     Scanner scanner = new Scanner(System.in);
@@ -11,15 +13,8 @@ public class PendaftaranWisuda {
     private int pilihan;
     private int opsi;
     
-    public void main(String[] args) {
-        mainFunction();
-    }
-
-    public void mainFunction() {
-        login();
-    }
-
-    public void login() {
+    public void main() {
+        initializeMockUsers();
         System.out.println("=======================================");
         System.out.println("||Sistem Pendaftaran Wisuda Mahasiswa||");
         System.out.println("||         Universitas Lampung       ||");
@@ -32,15 +27,15 @@ public class PendaftaranWisuda {
             String username = scanner.nextLine();
             System.out.print("Password : ");
             String password = scanner.nextLine();
+            System.out.println();
     
             User loggedInUser = null;
-            // Cari user di daftarUsers
-            for (User user : daftarUsers) {
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                    loggedInUser = user;
-                    break;
-                }
-            }
+            
+            loggedInUser = daftarUsers
+                    .stream()
+                    .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
+                    .findFirst()
+                    .orElse(null);
     
             if (loggedInUser != null) {
                 System.out.println("Selamat Datang " + username);
@@ -48,20 +43,21 @@ public class PendaftaranWisuda {
                 if (loggedInUser instanceof Admin) {
                     System.out.println("Login sebagai Admin.");
                     menuAdmin((Admin) loggedInUser);
+                    System.out.println();
                 } else if (loggedInUser instanceof Mahasiswa) {
                     System.out.println("Login sebagai Mahasiswa.");
                     menuMahasiswa((Mahasiswa) loggedInUser);
+                    System.out.println();
                 } else {
                     System.out.println("Role tidak dikenali.");
                 }
     
-                // Setelah user selesai dari menuAdmin/menuMahasiswa, tanya apakah ingin logout
-                System.out.print("Apakah Anda ingin Logout? (Y/N): ");
+                System.out.print("Apakah Anda ingin keluar dari sistem? (Y/N): ");
                 String keluar = scanner.nextLine();
                 if (keluar.equalsIgnoreCase("Y")) {
                     running = false;
                 }
-    
+                System.out.println();
             } else {
                 System.out.println("Maaf, Username atau Password Anda salah.");
                 System.out.print("Coba lagi? (Y/N): ");
@@ -69,52 +65,34 @@ public class PendaftaranWisuda {
                 if (cobaLagi.equalsIgnoreCase("N")) {
                     running = false;
                 }
+                System.out.println();
             }
         }
     
         System.out.println("Terima kasih telah menggunakan sistem.");
     }
 
-
-    public boolean loginUsers(String username, String password, Role role) {
-        for (User user : daftarUsers) {
-            if (user.getUsername().equals(username) &&
-                user.getPassword().equals(password) &&
-                user.getRole().equals(role)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public User getUser(String username, String password, Role role) {
-        for (User user : daftarUsers) {
-            if (user.getUsername().equals(username) &&
-                user.getPassword().equals(password) &&
-                user.getRole().equals(role)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public void menuMahasiswa(Mahasiswa mahasiswa) {
+    private void menuMahasiswa(Mahasiswa mahasiswa) {
         do {
-            System.out.println("Silahkan Pilih Opsi : ");
+            System.out.println("\nSilahkan Pilih Opsi : ");
             System.out.println("1. Tambahkan Berkas Pendaftaran Wisuda.");
             System.out.println("2. Lihat Status Pendaftaran Wisuda");
             System.out.println("3. Keluar");
+            System.out.print("Pilihan Anda: ");
             opsi = scanner.nextInt();
             scanner.nextLine();
+            System.out.println();
             switch(opsi){
                 case 1 : 
                     tambahBerkasPendaftaran(mahasiswa);
+                    System.out.println();
                     break;
                 case 2 :
                     lihatStatusPendaftaran(mahasiswa);
+                    System.out.println();
                     break;
                 case 3 :
-                    System.out.println("... Keluar Dari Sistem");
+                    System.out.println("Keluar Dari Menu Mahasiswa");
                     break;
                 default :
                     System.out.println("Pilihan tidak tersedia");
@@ -122,7 +100,7 @@ public class PendaftaranWisuda {
         } while(opsi != 3);
     }
     
-    public void tambahBerkasPendaftaran(Mahasiswa mahasiswa){
+    private void tambahBerkasPendaftaran(Mahasiswa mahasiswa){
         System.out.println("Masukan Formulir Pendaftaran Wisuda : ");
         String formulirPendaftaranWisuda = scanner.nextLine();
         System.out.println("Masukan Formulir Biodata Mahasiswa : ");
@@ -144,15 +122,16 @@ public class PendaftaranWisuda {
             formulirBebasLaboratorium,
             formulirSuratIkutSertaWisuda,
             formulirDokumenWisuda,
-            formulirPenyerahanKaryaIlmiah);
+            formulirPenyerahanKaryaIlmiah
+        );
         mahasiswa.setBerkasMahasiswa(berkas);
     }
 
-    public void lihatStatusPendaftaran(Mahasiswa mahasiswa){
+    private void lihatStatusPendaftaran(Mahasiswa mahasiswa){
         mahasiswa.displayStatusPendaftaran(mahasiswa);
     }
     
-    public void menuAdmin(Admin adminLogin) {
+    private void menuAdmin(Admin adminLogin) {
         do {
             System.out.println("\nSilahkan Pilih Opsi : ");
             System.out.println("1. Lihat Daftar Mahasiswa.");
@@ -164,7 +143,8 @@ public class PendaftaranWisuda {
 
             if (scanner.hasNextInt()) {
                 pilihan = scanner.nextInt();
-                scanner.nextLine(); // consume newline
+                scanner.nextLine();
+                System.out.println();
 
                 switch (pilihan) {
                     case 1:
@@ -176,9 +156,9 @@ public class PendaftaranWisuda {
                         break;
 
                     case 3:
-                        System.out.print("Masukan Nama Mahasiswa: ");
+                        System.out.print("Masukan Username Mahasiswa: ");
                         String nama = scanner.nextLine();
-                        Mahasiswa mhs = cariMahasiswaByNama(nama);
+                        Mahasiswa mhs = cariMahasiswaByUsername(nama);
                         if (mhs != null) {
                             mhs.displayDataMahasiswa(scanner);
                         } else {
@@ -187,9 +167,9 @@ public class PendaftaranWisuda {
                         break;
 
                     case 4:
-                        System.out.print("Masukan Nama Mahasiswa: ");
+                        System.out.print("Masukan Username Mahasiswa: ");
                         String namaMahasiswa = scanner.nextLine();
-                        Mahasiswa mhs1 = cariMahasiswaByNama(namaMahasiswa);
+                        Mahasiswa mhs1 = cariMahasiswaByUsername(namaMahasiswa);
                         if (mhs1 == null) {
                             System.out.println("Mahasiswa tidak ditemukan.");
                             break;
@@ -223,98 +203,90 @@ public class PendaftaranWisuda {
         } while (pilihan != 5);
     }
 
-    public void displayDaftarMahasiswa() {
-        System.out.println("Daftar Nama Mahasiswa:");
-        for (Mahasiswa mahasiswa : daftarMahasiswa) {
-            System.out.println(mahasiswa.getNama());
+    private void displayDaftarMahasiswa() {
+        if (daftarMahasiswa.isEmpty()) {
+            System.out.println("Data Mahasiswa Tidak Tersedia");
+            return;
         }
+        
+        System.out.println("Daftar Nama Mahasiswa:");
+        daftarMahasiswa
+            .stream()
+            .map(m -> "- " + m.getNama())
+            .forEach(System.out::println);
     }
 
-    public void displayDaftarMahasiswaWisuda() {
-        if(daftarMahasiswaWisuda != null){
+    private void displayDaftarMahasiswaWisuda() {
+        if(!daftarMahasiswaWisuda.isEmpty()){
             System.out.println("Daftar Nama Mahasiswa Wisuda:");
-            for (Mahasiswa mahasiswa : daftarMahasiswaWisuda) {
-            System.out.println(mahasiswa.getNama());
-            } 
+            daftarMahasiswaWisuda
+                .stream()
+                .map(m -> "- " + m.getNama())
+                .forEach(System.out::println);
         } else {
             System.out.println("Data Mahasiswa Wisuda Tidak Tersedia");
         }
     }
 
-    public Mahasiswa cariMahasiswaByNama(String nama) {
-        for (Mahasiswa mhs : daftarMahasiswa) {
-            if (mhs.getNama().equalsIgnoreCase(nama)) {
-                return mhs;
-            } else {
-            System.out.println("Mahasiswa tidak ditemukan!");
-            }
-        }
-        
-        return null;
-    }
-
-    public Admin cariAdminByNama(String nama) {
-        for (Admin adm : daftarAdmin) {
-            if (adm.getNama().equalsIgnoreCase(nama)) {
-                return adm;
-            }else {
-            System.out.println("Admin tidak ditemukan!");
-            }
-        }
-        return null;
-    }
-
-    public void setUsers(User user) {
-        daftarUsers.add(user);
-    }
-
-    public void setMahasiswa(User user) {
-        if (user instanceof Mahasiswa) {
-            Mahasiswa mahasiswa = (Mahasiswa) user;
-            if (!daftarMahasiswa.contains(mahasiswa)) {
-                daftarMahasiswa.add(mahasiswa);
-            }
-        }
+    private Mahasiswa cariMahasiswaByUsername(String username) {
+        return daftarMahasiswa
+            .stream()
+            .filter(m -> m.getUsername().equals(username))
+            .findFirst()
+            .orElse(null);
     }
     
-    public void setAdmin(User user) {
-        if (user instanceof Admin) {
-            Admin admin = (Admin) user;
-            if (!daftarAdmin.contains(admin)) {
-                daftarAdmin.add(admin);
-            }
-        }
-    }
-
-    public void displayBerkasMahasiswa(Mahasiswa mahasiswa) {
+    private void displayBerkasMahasiswa(Mahasiswa mahasiswa) {
         mahasiswa.displayBerkas();
     }
     
-    public void initializeUsers() {    
+    private void initializeMockUsers() {    
         Prodi pro1 = new Prodi("Teknik Informatika");
         
-        Mahasiswa mhs1 = new Mahasiswa("mahasiswa1", "pass123", Role.MAHASISWA, 
-                                      "1234567", "John Doe", "john@email.com", 
-                                      "08123456789", pro1, 
-                                      "Teknik", 2020);
+        Mahasiswa mhs1 = new Mahasiswa(
+            "udin",
+            "secret", 
+            Role.MAHASISWA, 
+            "1234567",
+            "Udin Amat",
+            "udin@email.com", 
+            "08123456789", 
+            pro1,                           
+            "Teknik",
+            2020
+        );
         registerUser(mhs1);
         
-        Admin admin1 = new Admin("admin1", "admin123", Role.ADMIN, "Admin Satu", "123", "email", "0897");
+        Admin admin1 = new Admin(
+            "admin1",
+            "secret",
+            Role.ADMIN,
+            "Admin Satu",
+            "id-pegawai-1",
+            "admin1@gmail.com",
+            "0897123456"
+        );
         registerUser(admin1);
     }
 
-    public void registerUser(User user) {
-        if (!daftarUsers.contains(user)) {
+    private boolean registerUser(User user) {
+        if (
+            daftarUsers
+                .stream()
+                .map(u -> u.getUsername())
+                .filter(un -> un.equals(user.getUsername()))
+                .collect(Collectors.toList())
+                .isEmpty()
+        ) {
             daftarUsers.add(user);
-        }
-        if (user instanceof Mahasiswa mahasiswa) {
-            if (!daftarMahasiswa.contains(mahasiswa)) {
+            if (user instanceof Mahasiswa mahasiswa) {
                 daftarMahasiswa.add(mahasiswa);
-            }
-        } else if (user instanceof Admin admin) {
-            if (!daftarAdmin.contains(admin)) {
+            } else if (user instanceof Admin admin) {
                 daftarAdmin.add(admin);
             }
+            
+            return true;
         }
+        return false;
     }
 }

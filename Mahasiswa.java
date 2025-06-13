@@ -1,21 +1,16 @@
- import java.util.Scanner;
-/**
- * Write a description of class Mahasiswa here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class Mahasiswa extends User
-{
+import java.util.Scanner;
+ 
+public class Mahasiswa extends User {
     private String NPM;
     private String nama;
     private String email;
     private String noHp;
-    private Prodi namaProdi;
+    private Prodi prodi;
     private String fakultas;
     private int angkatan;
     private BerkasPendaftaran berkas;
-    private StatusPendaftaran status = null;
+    private StatusPendaftaran status = StatusPendaftaran.DIPROSES;
+    private String kodeIjazah;
     
     public Mahasiswa(
         String username,
@@ -25,16 +20,16 @@ public class Mahasiswa extends User
         String nama,
         String email,
         String noHp,
-        Prodi namaProdi, 
+        Prodi prodi, 
         String fakultas,
         int angkatan
-    ){
+    ) {
         super(username, password, role);
         this.NPM = NPM;
         this.nama = nama;
         this.email = email;
         this.noHp = noHp;
-        this.namaProdi = namaProdi;
+        this.prodi = prodi;
         this.fakultas = fakultas;
         this.angkatan = angkatan;
     }
@@ -61,11 +56,9 @@ public class Mahasiswa extends User
         System.out.println("NPM Mahasiswa : " + NPM);
         System.out.println("Email Mahasiswa : " + email);
         System.out.println("No HP Mahasiswa : " + noHp);
-        System.out.println("Program Studi : " + namaProdi.getNamaProdi());
+        System.out.println("Program Studi : " + prodi.getNamaProdi());
         System.out.println("Fakultas : " + fakultas);
         System.out.println("Angkatan : " + angkatan + "\n");
-         
-    
         System.out.print("Tampilkan Berkas Pendaftaran (Y/N) : ");
         String nilaiInput = scanner.nextLine();
     
@@ -80,14 +73,18 @@ public class Mahasiswa extends User
     }
 
     public void displayStatusPendaftaran(Mahasiswa mhs){
-        if(this.status == null){
-            System.out.println("Maaf, Berkas anda kosong / Admin belum verifikasi berkas Anda");
-        } else {
+        if (this.berkas == null) {
+            System.out.println("Maaf, Berkas anda kosong");
+        } else if (this.status != StatusPendaftaran.DIPROSES) {
             System.out.println("Status pendaftaran mahasiswa " + mhs.getNama() + " telah diubah menjadi: " + this.status);
-            if(this.status == StatusPendaftaran.DITERIMA){
-                String kodeIjazah = KodeIjazah.generateKodeIjazah(this.namaProdi);
-                System.out.println("Kode Ijazah: " + kodeIjazah);
+            if (this.status == StatusPendaftaran.DITERIMA) {
+                if (this.kodeIjazah == null) {
+                    this.kodeIjazah = KodeIjazah.generateKodeIjazah(this.prodi);
+                }
+                System.out.println("Kode Ijazah: " + this.kodeIjazah);
             }
+        } else {
+            System.out.println("Berkas pendaftaran wisuda sedang diproses");
         }
     }
     

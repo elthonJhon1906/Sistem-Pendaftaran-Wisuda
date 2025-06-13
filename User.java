@@ -1,11 +1,4 @@
-/**
- * Write a description of class Users here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class User
-{
+public class User {
     private static int id = 1;
     private int idUser = id++;
     private String username;

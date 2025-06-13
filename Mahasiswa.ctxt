@@ -1,7 +1,6 @@
 #BlueJ class context
 comment0.target=Mahasiswa
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Mahasiswa\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=username\ password\ role\ NPM\ nama\ email\ noHp\ namaProdi\ fakultas\ angkatan
+comment1.params=username\ password\ role\ NPM\ nama\ email\ noHp\ prodi\ fakultas\ angkatan
 comment1.target=Mahasiswa(java.lang.String,\ java.lang.String,\ Role,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ Prodi,\ java.lang.String,\ int)
 comment2.params=
 comment2.target=java.lang.String\ getNama()

@@ -1,11 +1,4 @@
- /**
- * Write a description of class Admin here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class Admin extends User
-{
+public class Admin extends User {
     private String nama;
     private String idPegawai;
     private String email;
