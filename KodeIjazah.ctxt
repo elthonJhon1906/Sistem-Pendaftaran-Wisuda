@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=KodeIjazah
+comment1.params=prodi
+comment1.target=java.lang.String\ generateKodeIjazah(Prodi)
+numComments=2

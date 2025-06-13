@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Prodi
+comment1.params=namaProdi
+comment1.target=Prodi(java.lang.String)
+comment2.params=
+comment2.target=int\ generateRandomKodeProdi()
+comment3.params=
+comment3.target=java.lang.String\ getNamaProdi()
+comment4.params=
+comment4.target=int\ getKodeProdi()
+comment5.params=
+comment5.target=java.lang.String\ getKodeProdiFormatted()
+numComments=6
