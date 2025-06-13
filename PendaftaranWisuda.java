@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 public class PendaftaranWisuda {
     Scanner scanner = new Scanner(System.in);
@@ -10,7 +11,6 @@ public class PendaftaranWisuda {
     List<Mahasiswa> daftarMahasiswa = new ArrayList<>();
     List<Admin> daftarAdmin = new ArrayList<>();
     List<Mahasiswa> daftarMahasiswaWisuda = new ArrayList<>();
-    private int pilihan;
     private int opsi;
     
     public void main() {
@@ -23,6 +23,7 @@ public class PendaftaranWisuda {
         boolean running = true;
     
         while (running) {
+            System.out.println("\n=== Login ===");
             System.out.print("Username : ");
             String username = scanner.nextLine();
             System.out.print("Password : ");
@@ -71,6 +72,18 @@ public class PendaftaranWisuda {
     
         System.out.println("Terima kasih telah menggunakan sistem.");
     }
+    
+    private void safeIntInput(Consumer<Integer> consumer) {
+        if (scanner.hasNextInt()) {
+            opsi = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println();
+            consumer.accept(opsi);
+        } else {
+            System.out.println("\nInput harus berupa angka!");
+            scanner.next(); 
+        }
+    }
 
     private void menuMahasiswa(Mahasiswa mahasiswa) {
         do {
@@ -79,24 +92,24 @@ public class PendaftaranWisuda {
             System.out.println("2. Lihat Status Pendaftaran Wisuda");
             System.out.println("3. Keluar");
             System.out.print("Pilihan Anda: ");
-            opsi = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println();
-            switch(opsi){
-                case 1 : 
-                    tambahBerkasPendaftaran(mahasiswa);
-                    System.out.println();
-                    break;
-                case 2 :
-                    lihatStatusPendaftaran(mahasiswa);
-                    System.out.println();
-                    break;
-                case 3 :
-                    System.out.println("Keluar Dari Menu Mahasiswa");
-                    break;
-                default :
-                    System.out.println("Pilihan tidak tersedia");
-            }
+            
+            safeIntInput(opsi -> {
+               switch (opsi) {
+                    case 1 : 
+                        tambahBerkasPendaftaran(mahasiswa);
+                        System.out.println();
+                        break;
+                    case 2 :
+                        mahasiswa.displayStatusPendaftaran();
+                        System.out.println();
+                        break;
+                    case 3 :
+                        System.out.println("Keluar Dari Menu Mahasiswa");
+                        break;
+                    default :
+                        System.out.println("Pilihan tidak tersedia");
+                } 
+            });
         } while(opsi != 3);
     }
     
@@ -126,10 +139,6 @@ public class PendaftaranWisuda {
         );
         mahasiswa.setBerkasMahasiswa(berkas);
     }
-
-    private void lihatStatusPendaftaran(Mahasiswa mahasiswa){
-        mahasiswa.displayStatusPendaftaran(mahasiswa);
-    }
     
     private void menuAdmin(Admin adminLogin) {
         do {
@@ -141,12 +150,8 @@ public class PendaftaranWisuda {
             System.out.println("5. Keluar.");
             System.out.print("Pilihan Anda: ");
 
-            if (scanner.hasNextInt()) {
-                pilihan = scanner.nextInt();
-                scanner.nextLine();
-                System.out.println();
-
-                switch (pilihan) {
+            safeIntInput(opsi -> {
+                switch (opsi) {
                     case 1:
                         displayDaftarMahasiswa();
                         break;
@@ -176,10 +181,10 @@ public class PendaftaranWisuda {
                         }
 
                         System.out.print("Masukan Status Pendaftaran (DITERIMA / DITOLAK): ");
-                        String statusInput = scanner.nextLine();
+                        String statusInput = scanner.nextLine().toUpperCase();
                         try {
                             StatusPendaftaran status = StatusPendaftaran.valueOf(statusInput.toUpperCase());
-                            mhs1.setStatusPendaftaran(adminLogin, mhs1, status);
+                            mhs1.setStatusPendaftaran(adminLogin, status);
                             if(status == StatusPendaftaran.DITERIMA){
                                 daftarMahasiswaWisuda.add(mhs1);
                                 System.out.println("Mahasiswa berhasil ditambahkan ke daftar wisuda.");
@@ -195,12 +200,9 @@ public class PendaftaranWisuda {
 
                     default:
                         System.out.println("Pilihan tidak tersedia.");
-                }
-            } else {
-                System.out.println("Input harus berupa angka!");
-                scanner.next(); // consume invalid input
-            }
-        } while (pilihan != 5);
+                } 
+            });
+        } while (opsi != 5);
     }
 
     private void displayDaftarMahasiswa() {
@@ -212,7 +214,7 @@ public class PendaftaranWisuda {
         System.out.println("Daftar Nama Mahasiswa:");
         daftarMahasiswa
             .stream()
-            .map(m -> "- " + m.getNama())
+            .map(m -> "- " + m.getNama() + " (" + m.getUsername() + ")")
             .forEach(System.out::println);
     }
 
@@ -221,7 +223,7 @@ public class PendaftaranWisuda {
             System.out.println("Daftar Nama Mahasiswa Wisuda:");
             daftarMahasiswaWisuda
                 .stream()
-                .map(m -> "- " + m.getNama())
+                .map(m -> "- " + m.getNama() + " (" + m.getUsername() + ")")
                 .forEach(System.out::println);
         } else {
             System.out.println("Data Mahasiswa Wisuda Tidak Tersedia");

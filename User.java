@@ -1,6 +1,4 @@
 public class User {
-    private static int id = 1;
-    private int idUser = id++;
     private String username;
     private String password;
     private Role role;

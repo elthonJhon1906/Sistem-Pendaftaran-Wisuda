@@ -9,7 +9,6 @@ public class Mahasiswa extends User {
     private String fakultas;
     private int angkatan;
     private BerkasPendaftaran berkas;
-    private StatusPendaftaran status = StatusPendaftaran.DIPROSES;
     private String kodeIjazah;
     
     public Mahasiswa(
@@ -67,25 +66,25 @@ public class Mahasiswa extends User {
         }
     }
     
-    public void setStatusPendaftaran(Admin adm, Mahasiswa mhs, StatusPendaftaran status){
-        this.status = status;
-        displayStatusPendaftaran(mhs);
+    public void setStatusPendaftaran(Admin adm, StatusPendaftaran status){
+        berkas.updateStatus(adm, status);
+        displayStatusPendaftaran();
     }
 
-    public void displayStatusPendaftaran(Mahasiswa mhs){
+    public void displayStatusPendaftaran() {
         if (this.berkas == null) {
             System.out.println("Maaf, Berkas anda kosong");
-        } else if (this.status != StatusPendaftaran.DIPROSES) {
-            System.out.println("Status pendaftaran mahasiswa " + mhs.getNama() + " telah diubah menjadi: " + this.status);
-            if (this.status == StatusPendaftaran.DITERIMA) {
+        } else if (this.berkas.getStatus() != StatusPendaftaran.DIPROSES) {
+            System.out.println("Status pendaftaran mahasiswa " + this.nama + " telah diubah menjadi: " + this.berkas.getStatus());
+            if (this.berkas.getStatus() == StatusPendaftaran.DITERIMA) {
                 if (this.kodeIjazah == null) {
                     this.kodeIjazah = KodeIjazah.generateKodeIjazah(this.prodi);
                 }
                 System.out.println("Kode Ijazah: " + this.kodeIjazah);
             }
         } else {
+            // StatusPendaftaran == DIPROSES
             System.out.println("Berkas pendaftaran wisuda sedang diproses");
         }
     }
-    
 }
