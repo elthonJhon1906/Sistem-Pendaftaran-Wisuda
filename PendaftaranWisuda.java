@@ -4,12 +4,13 @@ import java.util.Scanner;
 
 public class PendaftaranWisuda {
     Scanner scanner = new Scanner(System.in);
-    List<Users> daftarUsers = new ArrayList<>();
+    List<User> daftarUsers = new ArrayList<>();
     List<Mahasiswa> daftarMahasiswa = new ArrayList<>();
     List<Admin> daftarAdmin = new ArrayList<>();
     List<Mahasiswa> daftarMahasiswaWisuda = new ArrayList<>();
     private int pilihan;
     private int opsi;
+    
     public void main(String[] args) {
         mainFunction();
     }
@@ -19,64 +20,64 @@ public class PendaftaranWisuda {
     }
 
     public void login() {
-    System.out.println("=======================================");
-    System.out.println("||Sistem Pendaftaran Wisuda Mahasiswa||");
-    System.out.println("||         Universitas Lampung       ||");
-    System.out.println("=======================================\n");
-
-    boolean running = true;
-
-    while (running) {
-        System.out.print("Username : ");
-        String username = scanner.nextLine();
-        System.out.print("Password : ");
-        String password = scanner.nextLine();
-
-        Users loggedInUser = null;
-        // Cari user di daftarUsers
-        for (Users user : daftarUsers) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                loggedInUser = user;
-                break;
+        System.out.println("=======================================");
+        System.out.println("||Sistem Pendaftaran Wisuda Mahasiswa||");
+        System.out.println("||         Universitas Lampung       ||");
+        System.out.println("=======================================\n");
+    
+        boolean running = true;
+    
+        while (running) {
+            System.out.print("Username : ");
+            String username = scanner.nextLine();
+            System.out.print("Password : ");
+            String password = scanner.nextLine();
+    
+            User loggedInUser = null;
+            // Cari user di daftarUsers
+            for (User user : daftarUsers) {
+                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                    loggedInUser = user;
+                    break;
+                }
             }
-        }
-
-        if (loggedInUser != null) {
-            System.out.println("Selamat Datang " + username);
-
-            if (loggedInUser instanceof Admin) {
-                System.out.println("Login sebagai Admin.");
-                menuAdmin((Admin) loggedInUser);
-            } else if (loggedInUser instanceof Mahasiswa) {
-                System.out.println("Login sebagai Mahasiswa.");
-                menuMahasiswa((Mahasiswa) loggedInUser);
+    
+            if (loggedInUser != null) {
+                System.out.println("Selamat Datang " + username);
+    
+                if (loggedInUser instanceof Admin) {
+                    System.out.println("Login sebagai Admin.");
+                    menuAdmin((Admin) loggedInUser);
+                } else if (loggedInUser instanceof Mahasiswa) {
+                    System.out.println("Login sebagai Mahasiswa.");
+                    menuMahasiswa((Mahasiswa) loggedInUser);
+                } else {
+                    System.out.println("Role tidak dikenali.");
+                }
+    
+                // Setelah user selesai dari menuAdmin/menuMahasiswa, tanya apakah ingin logout
+                System.out.print("Apakah Anda ingin Logout? (Y/N): ");
+                String keluar = scanner.nextLine();
+                if (keluar.equalsIgnoreCase("Y")) {
+                    running = false;
+                }
+    
             } else {
-                System.out.println("Role tidak dikenali.");
-            }
-
-            // Setelah user selesai dari menuAdmin/menuMahasiswa, tanya apakah ingin logout
-            System.out.print("Apakah Anda ingin Logout? (Y/N): ");
-            String keluar = scanner.nextLine();
-            if (keluar.equalsIgnoreCase("Y")) {
-                running = false;
-            }
-
-        } else {
-            System.out.println("Maaf, Username atau Password Anda salah.");
-            System.out.print("Coba lagi? (Y/N): ");
-            String cobaLagi = scanner.nextLine();
-            if (cobaLagi.equalsIgnoreCase("N")) {
-                running = false;
+                System.out.println("Maaf, Username atau Password Anda salah.");
+                System.out.print("Coba lagi? (Y/N): ");
+                String cobaLagi = scanner.nextLine();
+                if (cobaLagi.equalsIgnoreCase("N")) {
+                    running = false;
+                }
             }
         }
+    
+        System.out.println("Terima kasih telah menggunakan sistem.");
     }
-
-    System.out.println("Terima kasih telah menggunakan sistem.");
-}
 
 
     public boolean loginUsers(String username, String password, Role role) {
-        for (Users user : daftarUsers) {
+        for (User user : daftarUsers) {
             if (user.getUsername().equals(username) &&
                 user.getPassword().equals(password) &&
                 user.getRole().equals(role)) {
@@ -86,8 +87,8 @@ public class PendaftaranWisuda {
         return false;
     }
 
-    public Users getUser(String username, String password, Role role) {
-        for (Users user : daftarUsers) {
+    public User getUser(String username, String password, Role role) {
+        for (User user : daftarUsers) {
             if (user.getUsername().equals(username) &&
                 user.getPassword().equals(password) &&
                 user.getRole().equals(role)) {
@@ -230,14 +231,14 @@ public class PendaftaranWisuda {
     }
 
     public void displayDaftarMahasiswaWisuda() {
-    if(daftarMahasiswaWisuda != null){
-        System.out.println("Daftar Nama Mahasiswa Wisuda:");
-        for (Mahasiswa mahasiswa : daftarMahasiswaWisuda) {
-        System.out.println(mahasiswa.getNama());
-        } 
-    } else {
-        System.out.println("Data Mahasiswa Wisuda Tidak Tersedia");
-    }
+        if(daftarMahasiswaWisuda != null){
+            System.out.println("Daftar Nama Mahasiswa Wisuda:");
+            for (Mahasiswa mahasiswa : daftarMahasiswaWisuda) {
+            System.out.println(mahasiswa.getNama());
+            } 
+        } else {
+            System.out.println("Data Mahasiswa Wisuda Tidak Tersedia");
+        }
     }
 
     public Mahasiswa cariMahasiswaByNama(String nama) {
@@ -263,58 +264,57 @@ public class PendaftaranWisuda {
         return null;
     }
 
-    public void setUsers(Users user) {
+    public void setUsers(User user) {
         daftarUsers.add(user);
     }
 
-public void setMahasiswa(Users user) {
-    if (user instanceof Mahasiswa) {
-        Mahasiswa mahasiswa = (Mahasiswa) user;
-        if (!daftarMahasiswa.contains(mahasiswa)) {
-            daftarMahasiswa.add(mahasiswa);
+    public void setMahasiswa(User user) {
+        if (user instanceof Mahasiswa) {
+            Mahasiswa mahasiswa = (Mahasiswa) user;
+            if (!daftarMahasiswa.contains(mahasiswa)) {
+                daftarMahasiswa.add(mahasiswa);
+            }
         }
     }
-}
-
-public void setAdmin(Users user) {
-    if (user instanceof Admin) {
-        Admin admin = (Admin) user;
-        if (!daftarAdmin.contains(admin)) {
-            daftarAdmin.add(admin);
+    
+    public void setAdmin(User user) {
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            if (!daftarAdmin.contains(admin)) {
+                daftarAdmin.add(admin);
+            }
         }
     }
-}
 
     public void displayBerkasMahasiswa(Mahasiswa mahasiswa) {
         mahasiswa.displayBerkas();
     }
     
-    public void initializeUsers(){
-    // Contoh data dummy    
-    Prodi pro1 = new Prodi("Teknik Informatika");
-    
-    Mahasiswa mhs1 = new Mahasiswa("mahasiswa1", "pass123", Role.MAHASISWA, 
-                                  "1234567", "John Doe", "john@email.com", 
-                                  "08123456789", pro1, 
-                                  "Teknik", 2020);
-    registerUser(mhs1);
-    
-    Admin admin1 = new Admin("admin1", "admin123", Role.ADMIN, "Admin Satu", "123", "email", "0897");
-    registerUser(admin1);
+    public void initializeUsers() {    
+        Prodi pro1 = new Prodi("Teknik Informatika");
+        
+        Mahasiswa mhs1 = new Mahasiswa("mahasiswa1", "pass123", Role.MAHASISWA, 
+                                      "1234567", "John Doe", "john@email.com", 
+                                      "08123456789", pro1, 
+                                      "Teknik", 2020);
+        registerUser(mhs1);
+        
+        Admin admin1 = new Admin("admin1", "admin123", Role.ADMIN, "Admin Satu", "123", "email", "0897");
+        registerUser(admin1);
     }
 
-    public void registerUser(Users user) {
-    if (!daftarUsers.contains(user)) {
-        daftarUsers.add(user);
-    }
-    if (user instanceof Mahasiswa mahasiswa) {
-        if (!daftarMahasiswa.contains(mahasiswa)) {
-            daftarMahasiswa.add(mahasiswa);
+    public void registerUser(User user) {
+        if (!daftarUsers.contains(user)) {
+            daftarUsers.add(user);
         }
-    } else if (user instanceof Admin admin) {
-        if (!daftarAdmin.contains(admin)) {
-            daftarAdmin.add(admin);
+        if (user instanceof Mahasiswa mahasiswa) {
+            if (!daftarMahasiswa.contains(mahasiswa)) {
+                daftarMahasiswa.add(mahasiswa);
+            }
+        } else if (user instanceof Admin admin) {
+            if (!daftarAdmin.contains(admin)) {
+                daftarAdmin.add(admin);
+            }
         }
     }
-}
 }

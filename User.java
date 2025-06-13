@@ -4,17 +4,17 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Users
+public class User
 {
     private static int id = 1;
     private int idUser = id++;
     private String username;
     private String password;
     private Role role;
-    public Users(String username, String password, Role role){
-    this.username = username;
-    this.password = password;
-    this.role = role;
+    public User(String username, String password, Role role){
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
     
     public String getUsername(){
