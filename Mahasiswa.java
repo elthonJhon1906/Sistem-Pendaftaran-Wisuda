@@ -13,8 +13,7 @@ public class Mahasiswa extends User {
     
     public Mahasiswa(
         String username,
-        String password,
-        Role role,
+        String password ,
         String NPM,
         String nama,
         String email,
@@ -23,7 +22,7 @@ public class Mahasiswa extends User {
         String fakultas,
         int angkatan
     ) {
-        super(username, password, role);
+        super(username, password, Role.MAHASISWA);
         this.NPM = NPM;
         this.nama = nama;
         this.email = email;

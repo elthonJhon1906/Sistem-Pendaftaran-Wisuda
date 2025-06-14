@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=Mahasiswa
-comment1.params=username\ password\ role\ NPM\ nama\ email\ noHp\ prodi\ fakultas\ angkatan
-comment1.target=Mahasiswa(java.lang.String,\ java.lang.String,\ Role,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ Prodi,\ java.lang.String,\ int)
+comment1.params=username\ password\ NPM\ nama\ email\ noHp\ prodi\ fakultas\ angkatan
+comment1.target=Mahasiswa(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ Prodi,\ java.lang.String,\ int)
 comment2.params=
 comment2.target=java.lang.String\ getNama()
 comment3.params=berkas

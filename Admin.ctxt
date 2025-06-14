@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=Admin
-comment1.params=username\ password\ role\ nama\ idPegawai\ email\ noTelepon
-comment1.target=Admin(java.lang.String,\ java.lang.String,\ Role,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment1.params=username\ password\ nama\ idPegawai\ email\ noTelepon
+comment1.target=Admin(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
 comment2.params=
 comment2.target=java.lang.String\ getNama()
 numComments=3

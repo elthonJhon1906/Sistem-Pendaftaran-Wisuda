@@ -23,23 +23,10 @@ public class PendaftaranWisuda {
         boolean running = true;
     
         while (running) {
-            System.out.println("\n=== Login ===");
-            System.out.print("Username : ");
-            String username = scanner.nextLine();
-            System.out.print("Password : ");
-            String password = scanner.nextLine();
-            System.out.println();
-    
-            User loggedInUser = null;
-            
-            loggedInUser = daftarUsers
-                    .stream()
-                    .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
-                    .findFirst()
-                    .orElse(null);
+            User loggedInUser = loginMenu();
     
             if (loggedInUser != null) {
-                System.out.println("Selamat Datang " + username);
+                System.out.println("Selamat Datang " + loggedInUser.getUsername());
     
                 if (loggedInUser instanceof Admin) {
                     System.out.println("Login sebagai Admin.");
@@ -71,6 +58,93 @@ public class PendaftaranWisuda {
         }
     
         System.out.println("Terima kasih telah menggunakan sistem.");
+    }
+    
+    private User loginMenu() {
+        System.out.println("Masuk");
+        System.out.println("1. Login");
+        System.out.println("2. Register");
+        System.out.print("Pilihan anda: ");
+        
+        if (scanner.hasNextInt()) {
+            int pilihan = scanner.nextInt();
+            scanner.nextLine();
+            switch (pilihan) {
+                case 1:
+                    System.out.println("\n=== Login ===");
+                    System.out.print("Username : ");
+                    String username = scanner.nextLine();
+                    System.out.print("Password : ");
+                    String password = scanner.nextLine();
+                    System.out.println();
+                    
+                    return daftarUsers
+                        .stream()
+                        .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
+                        .findFirst()
+                        .orElse(null);
+                
+                case 2:
+                    System.out.println("\n=== Login ===");
+                    System.out.print("Username : ");
+                    String uname = scanner.nextLine();
+                    if (
+                        daftarUsers
+                            .stream()
+                            .filter(u -> u.getUsername().equals(uname))
+                            .findFirst()
+                            .orElse(null) != null
+                    ) {
+                        System.out.println("Username telah digunakan");
+                        return null;
+                    }
+                    System.out.print("Password : ");
+                    String pass = scanner.nextLine();
+                    System.out.print("NPM: ");
+                    String npm = scanner.nextLine();
+                    System.out.print("Nama: ");
+                    String nama = scanner.nextLine();
+                    System.out.print("Email: ");
+                    String email = scanner.nextLine();
+                    System.out.print("No. Hp: ");
+                    String noHp = scanner.nextLine();
+                    System.out.print("Prodi: ");
+                    String prodi = scanner.nextLine();
+                    System.out.print("Fakultas: ");
+                    String fakultas = scanner.nextLine();
+                    System.out.print("Angkatan: ");
+                    int angkatan;
+                    if (scanner.hasNextInt()) {
+                        angkatan = scanner.nextInt();
+                        scanner.nextLine();
+                    } else {
+                        System.out.println("Angkatan harus berupa angka");
+                        scanner.next();
+                        return null;
+                    }
+                    Mahasiswa m = new Mahasiswa(
+                        uname,
+                        pass,
+                        npm,
+                        nama,
+                        email,
+                        noHp,
+                        new Prodi(prodi),
+                        fakultas,
+                        angkatan
+                    );
+                    registerUser(m);
+                    System.out.println("Mahasiswa berhasil registrasi");
+                    return m;
+                default:
+                    System.out.println("Pilihan tidak ada");
+                    return null;
+            }
+        } else {
+            System.out.println("Input harus berupa integer");
+            scanner.next();
+            return null;
+        }
     }
     
     private void safeIntInput(Consumer<Integer> consumer) {
@@ -247,8 +321,7 @@ public class PendaftaranWisuda {
         
         Mahasiswa mhs1 = new Mahasiswa(
             "udin",
-            "secret", 
-            Role.MAHASISWA, 
+            "secret",
             "1234567",
             "Udin Amat",
             "udin@email.com", 
@@ -262,7 +335,6 @@ public class PendaftaranWisuda {
         Admin admin1 = new Admin(
             "admin1",
             "secret",
-            Role.ADMIN,
             "Admin Satu",
             "id-pegawai-1",
             "admin1@gmail.com",

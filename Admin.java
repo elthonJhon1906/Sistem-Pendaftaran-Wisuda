@@ -6,14 +6,13 @@ public class Admin extends User {
     
     public Admin(
         String username, 
-        String password, 
-        Role role,
+        String password,
         String nama,
         String idPegawai,
         String email,
         String noTelepon
     ){
-        super(username, password, role);
+        super(username, password, Role.ADMIN);
         this.nama = nama;
         this.idPegawai = idPegawai;
         this.email = email;
