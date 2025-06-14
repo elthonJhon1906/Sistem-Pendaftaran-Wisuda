@@ -47,13 +47,15 @@ public class PendaftaranWisuda {
                 }
                 System.out.println();
             } else {
-                System.out.println("Maaf, Username atau Password Anda salah.");
-                System.out.print("Coba lagi? (Y/N): ");
-                String cobaLagi = scanner.nextLine();
-                if (cobaLagi.equalsIgnoreCase("N")) {
-                    running = false;
+                if (opsi == 1) {
+                    System.out.println("Maaf, Username atau Password Anda salah.");
+                    System.out.print("Coba lagi? (Y/N): ");
+                    String cobaLagi = scanner.nextLine();
+                    if (cobaLagi.equalsIgnoreCase("N")) {
+                        running = false;
+                    }
+                    System.out.println();
                 }
-                System.out.println();
             }
         }
     
@@ -67,9 +69,9 @@ public class PendaftaranWisuda {
         System.out.print("Pilihan anda: ");
         
         if (scanner.hasNextInt()) {
-            int pilihan = scanner.nextInt();
+            opsi = scanner.nextInt();
             scanner.nextLine();
-            switch (pilihan) {
+            switch (opsi) {
                 case 1:
                     System.out.println("\n=== Login ===");
                     System.out.print("Username : ");
@@ -85,7 +87,7 @@ public class PendaftaranWisuda {
                         .orElse(null);
                 
                 case 2:
-                    System.out.println("\n=== Login ===");
+                    System.out.println("\n=== Registrasi ===");
                     System.out.print("Username : ");
                     String uname = scanner.nextLine();
                     if (
