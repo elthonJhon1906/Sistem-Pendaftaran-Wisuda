@@ -8,7 +8,7 @@ public class Mahasiswa extends User {
     private Prodi prodi;
     private String fakultas;
     private int angkatan;
-    private BerkasPendaftaran berkas;
+     BerkasPendaftaran berkas;
     private String kodeIjazah;
     
     public Mahasiswa(

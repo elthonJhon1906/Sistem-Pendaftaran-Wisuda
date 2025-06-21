@@ -1,12 +1,12 @@
 public class BerkasPendaftaran {
-    private String formulirPendaftaranWisuda;
-    private String formulirBiodataMahasiswa;
-    private String formulirPermohonanBebasPustaka;
-    private String formulirBebasLaboratorium;
-    private String formulirSuratIkutSertaWisuda;
-    private String formulirDokumenWisuda;
-    private String formulirPenyerahanKaryaIlmiah;
-    private StatusPendaftaran status = StatusPendaftaran.DIPROSES;
+    String formulirPendaftaranWisuda;
+    String formulirBiodataMahasiswa;
+    String formulirPermohonanBebasPustaka;
+    String formulirBebasLaboratorium;
+    String formulirSuratIkutSertaWisuda;
+    String formulirDokumenWisuda;
+    String formulirPenyerahanKaryaIlmiah;
+    StatusPendaftaran status = StatusPendaftaran.DIPROSES;
     private Admin adminPenanggungJawab; 
    
     public BerkasPendaftaran(

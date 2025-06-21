@@ -189,32 +189,74 @@ public class PendaftaranWisuda {
         } while(opsi != 3);
     }
     
-    private void tambahBerkasPendaftaran(Mahasiswa mahasiswa){
-        System.out.println("Masukan Formulir Pendaftaran Wisuda : ");
-        String formulirPendaftaranWisuda = scanner.nextLine();
-        System.out.println("Masukan Formulir Biodata Mahasiswa : ");
-        String formulirBiodataMahasiswa = scanner.nextLine();
-        System.out.println("Masukan Formulir Permohonan Bebas Pustaka : ");
-        String formulirPermohonanBebasPustaka = scanner.nextLine();
-        System.out.println("Masukan Formulir Permohonan Bebas Laboratorium : ");
-        String formulirBebasLaboratorium = scanner.nextLine();
-        System.out.println("Masukan Formulir Surat Ikut Serta Wisuda : ");
-        String formulirSuratIkutSertaWisuda = scanner.nextLine();
-        System.out.println("Masukan Formulir Dokumen Wisuda : ");
-        String formulirDokumenWisuda = scanner.nextLine();
-        System.out.println("Masukan Formulir Penyerahan Karya Ilmiah : ");
-        String formulirPenyerahanKaryaIlmiah = scanner.nextLine();
-        BerkasPendaftaran berkas = new BerkasPendaftaran(
-            formulirPendaftaranWisuda,
-            formulirBiodataMahasiswa,
-            formulirPermohonanBebasPustaka,
-            formulirBebasLaboratorium,
-            formulirSuratIkutSertaWisuda,
-            formulirDokumenWisuda,
-            formulirPenyerahanKaryaIlmiah
-        );
-        mahasiswa.setBerkasMahasiswa(berkas);
+   // ...existing code...
+private void tambahBerkasPendaftaran(Mahasiswa mahasiswa) {
+    BerkasPendaftaran berkas = mahasiswa.berkas != null ? mahasiswa.berkas : new BerkasPendaftaran(
+        "", "", "", "", "", "", ""
+    );
+    boolean selesai = false;
+    while (!selesai) {
+        System.out.println("\nPilih berkas yang ingin diinput/ubah:");
+        System.out.println("1. Formulir Pendaftaran Wisuda");
+        System.out.println("2. Formulir Biodata Mahasiswa");
+        System.out.println("3. Formulir Permohonan Bebas Pustaka");
+        System.out.println("4. Formulir Permohonan Bebas Laboratorium");
+        System.out.println("5. Formulir Surat Ikut Serta Wisuda");
+        System.out.println("6. Formulir Dokumen Wisuda");
+        System.out.println("7. Formulir Penyerahan Karya Ilmiah");
+        System.out.println("8. Selesai");
+        System.out.print("Pilihan Anda: ");
+
+        int pilihan;
+        if (scanner.hasNextInt()) {
+            pilihan = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Input harus berupa angka!");
+            scanner.next();
+            continue;
+        }
+
+        switch (pilihan) {
+            case 1:
+                System.out.print("Masukan Formulir Pendaftaran Wisuda: ");
+                berkas.formulirPendaftaranWisuda = scanner.nextLine();
+                break;
+            case 2:
+                System.out.print("Masukan Formulir Biodata Mahasiswa: ");
+                berkas.formulirBiodataMahasiswa = scanner.nextLine();
+                break;
+            case 3:
+                System.out.print("Masukan Formulir Permohonan Bebas Pustaka: ");
+                berkas.formulirPermohonanBebasPustaka = scanner.nextLine();
+                break;
+            case 4:
+                System.out.print("Masukan Formulir Permohonan Bebas Laboratorium: ");
+                berkas.formulirBebasLaboratorium = scanner.nextLine();
+                break;
+            case 5:
+                System.out.print("Masukan Formulir Surat Ikut Serta Wisuda: ");
+                berkas.formulirSuratIkutSertaWisuda = scanner.nextLine();
+                break;
+            case 6:
+                System.out.print("Masukan Formulir Dokumen Wisuda: ");
+                berkas.formulirDokumenWisuda = scanner.nextLine();
+                break;
+            case 7:
+                System.out.print("Masukan Formulir Penyerahan Karya Ilmiah: ");
+                berkas.formulirPenyerahanKaryaIlmiah = scanner.nextLine();
+                break;
+            case 8:
+                selesai = true;
+                break;
+            default:
+                System.out.println("Pilihan tidak tersedia.");
+        }
     }
+    mahasiswa.setBerkasMahasiswa(berkas);
+    System.out.println("Berkas berhasil diperbarui.");
+}
+// ...existing code...
     
     private void menuAdmin(Admin adminLogin) {
         do {
