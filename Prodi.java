@@ -1,17 +1,17 @@
-import java.util.Random;
 
 public class Prodi {
     private int kodeProdi;
     private String namaProdi;
-
+    private static int increment = 1;
+    private static int resultIncrement;
     public Prodi(String namaProdi) {
         this.namaProdi = namaProdi;
         this.kodeProdi = generateRandomKodeProdi();
     }
 
     private int generateRandomKodeProdi() {
-        Random random = new Random();
-        return 10000 + random.nextInt(90000); 
+        this.resultIncrement = this.increment++;
+        return this.resultIncrement;
     }
 
     public String getNamaProdi() {

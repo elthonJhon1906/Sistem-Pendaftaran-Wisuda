@@ -86,4 +86,5 @@ public class Mahasiswa extends User {
             System.out.println("Berkas pendaftaran wisuda sedang diproses");
         }
     }
+
 }

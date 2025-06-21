@@ -189,7 +189,6 @@ public class PendaftaranWisuda {
         } while(opsi != 3);
     }
     
-   // ...existing code...
 private void tambahBerkasPendaftaran(Mahasiswa mahasiswa) {
     BerkasPendaftaran berkas = mahasiswa.berkas != null ? mahasiswa.berkas : new BerkasPendaftaran(
         "", "", "", "", "", "", ""
@@ -407,4 +406,5 @@ private void tambahBerkasPendaftaran(Mahasiswa mahasiswa) {
         }
         return false;
     }
+
 }
