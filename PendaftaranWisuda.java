@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+    import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Optional;
@@ -166,7 +166,8 @@ public class PendaftaranWisuda {
             System.out.println("\nSilahkan Pilih Opsi : ");
             System.out.println("1. Tambahkan Berkas Pendaftaran Wisuda.");
             System.out.println("2. Lihat Status Pendaftaran Wisuda");
-            System.out.println("3. Keluar");
+            System.out.println("3. Tampilkan Berkas Pendaftaran");
+            System.out.println("4. Keluar");
             System.out.print("Pilihan Anda: ");
             
             safeIntInput(opsi -> {
@@ -180,13 +181,16 @@ public class PendaftaranWisuda {
                         System.out.println();
                         break;
                     case 3 :
+                        mahasiswa.displayBerkas();
+                        break;
+                    case 4 :
                         System.out.println("Keluar Dari Menu Mahasiswa");
                         break;
                     default :
                         System.out.println("Pilihan tidak tersedia");
                 } 
             });
-        } while(opsi != 3);
+        } while(opsi != 4);
     }
     
 private void tambahBerkasPendaftaran(Mahasiswa mahasiswa) {
